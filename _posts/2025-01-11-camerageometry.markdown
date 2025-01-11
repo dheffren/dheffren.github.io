@@ -93,7 +93,7 @@ So (X, Y, Z) becomes (X,Y, Z, 1).
 What distinguishes this from a subset of $$\mathbb{R}^4$$ is that we say two vectors are equivalent if $$(X/W, Y/W, Z/W, W/W) = (x/w, y/w, z/w, w/w)$$
 In other words, we say any rescaling of a vector is equivalent to that vector. The extra dimension just provides a nice way of describing our current "scaling" and translating between the two coordinate systems. 
 
-This might seem unnecessary, but what it does is allows us to rewrite our previous formulas in a simpler manner. Instead of saying $$X_C = RX_w + t$$, we can represent both $X_C$ and $X_W$ in homogenous coordinates and say
+This might seem unnecessary, but what it does is allows us to rewrite our previous formulas in a simpler manner. Instead of saying $$X_C = RX_w + t$$, we can represent both $$X_C$$ and $$X_W$$ in homogenous coordinates and say
 $$X_W = \begin{bmatrix} R & t\\ 0 & 1 \\ \end{bmatrix} X_C$$. Now, our transformation is linear.
 
 This coordinate system also gives us a simpler way of rewriting our earlier description of the projection onto the image plane: 

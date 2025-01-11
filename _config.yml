@@ -22,7 +22,7 @@ title: My website
 email: dheffre1@jh.edu
 description: >- # this means to ignore newlines until "baseurl:"
  My website where I put projects I'm working on, blog posts, and writeups. 
-baseurl: "/" # the subpath of your site, e.g. /blog
+baseurl: "/dheffren.github.io" # the subpath of your site, e.g. /blog
 url: "http://dheffren.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jekyllrb
 github_username:  jekyll
