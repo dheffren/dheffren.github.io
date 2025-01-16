@@ -126,4 +126,41 @@ We call the matrix $$\begin{bmatrix} R &  t \end{bmatrix}$$ the **extrinsic** pa
 As you can see, after projection we lose information about how far away our point was from the origin. When reconstructing 3d coordinates from 2d ones, we'll need some way to obtain this depth 
 parameter, either via a stereo setup or some external sensor. 
 
+## Reverse projection
+
+It's one thing to project one way, but how about the other? 
+Well, immediately something becomes obvious: There is no well defined inverse to the camera matrix P, since it is 3x4. Thus, there is some information loss. 
+
+We can visualize this by considering the picture of the camera center and the point on the pixel. If we draw a line between the two, and continue it out into space, we know that the 3d point the projected pixel 
+came from must be on that line. However, we don't know the depth, since this was a projection. Thus, any point on that line would be a valid "inverse". 
+
+Instead, we use the **Moore-Penrose** inverse. This is well defined on any size of matrix, and is essentially the "best inverse we can get", as in, $$\hat X = P^{\dagger}x$$ gives us the least squares guess of the true value. 
+The system $PX = x$ is underdetermined, so the moore penrose gives us teh least square norm value. 
+
+To visualize what the moore penrose inverse does, is it chooses the point on the line closest to the origin of the world coordinate system. As you can see, this is somewhat arbitrary. Thus, we need a better way. 
+
+## Two camera setup
+To make things somewhat more interesting, let's consider a stereo camera setup. We have two cameras with poses (R1, t1) and (R2, t2), and intrinsics $K_1, K_2$. Thus, we can take a point X and project it to BOTH cameras via their respective camera matrices, 
+$$P_1 = K_1 @ \begin{bmatrix} R_1 & t_1 \end{bmatrix}$$ and likewise for $P_2$. 
+
+However, when we take pictures with cameras, usually we don't have the 3D coordinate. Instead, we have two images at some related position, and we want to find corresponding points in each image. 
+
+Well, if we already know the poses, it turns out that we can compute this without much difficulty. We only need the RELATIVE poses. 
+
+## The fundamental matrix
+The typical object of focus we aim to compute in the stereo camera setup is the fundamental matrix. 
+
+What the fundamental matrix does is project a point on the first image to a line on the second image. 
+
+Remember the "line" we get by reverse projecting a point on the first image? Well, if you project each point on that line onto the second image, you get another line (this time on the image plane). 
+This other line, we call an **epipolar line**. Each point on the first image has a corresponding epipolar line on the second image. 
+
+Now, I claim something which may seem surprising at first. I claim that all the epipolar lines intersect at ONE point. 
+why would this be true? Well, if we're projecting EACH point on the ray between the camera center and a pixel onto the other image, one point which is on EVERY one of these rays is the camera center itself!
+
+Therefore, the epipole $e2$ is the camera center of the first image projected onto the other image. Note that this may not be IN our image, which is ok. This represents the case where the neither camera would appear in the image of the other(if the other camera appeared in this image, its epipole would still be in there). 
+
+You can use these epipoles in your code to test if things are really working. 
+
+
 
